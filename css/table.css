@@ -1,0 +1,198 @@
+/* Clearfix hack by Nicolas Gallagher: http://nicolasgallagher.com/micro-clearfix-hack/ */
+
+.container2 {
+	width: 80%;
+    left: 250px;
+    height: 85%;
+    top: 100px;
+    position: absolute;
+    font-family: 'Lato', Calibri, Arial, sans-serif;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+
+.container2 > header,
+.main2 {
+	width: 2760px;
+    max-width: 2760px;
+    margin: 0 auto;
+}
+
+.container2 > header {
+	padding: 30px;
+}
+
+/* Header Style */
+
+
+.table {
+	width: 100%;
+	height: 100%;
+}
+
+.table .table-head {
+	height: 30px;
+	line-height: 30px;
+	background: #fff;
+	color: #fff;
+}
+
+.table .table-body {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	height: -moz-calc(100% - 30px);
+	height: -webkit-calc(100% - 30px);
+	height: calc(100% - 30px);
+	overflow-y: scroll;
+}
+
+.table .table-row {
+	width: 100%;
+	border-bottom: 1px solid #ddd;
+}
+
+.table-row  {
+	height: 17%;
+}
+
+
+
+.table .table-row > div,
+.table .table-head > div {
+	float: left;
+	height: 100%;
+	width:  8.33%; /* 100% / 7 */
+	width: -moz-calc(100%/12);
+	width: -webkit-calc(100%/12);
+	width: calc(100%/12);
+	position: relative;
+}
+
+/* IE 9 is rounding up the calc it seems */
+.ie9 .table .table-row > div,
+.ie9 .table .table-head > div {
+	width:  8.33%;
+}
+
+.table .table-row > div {
+	border-right: 1px solid #ddd;
+	padding: 4px;
+	overflow: hidden;
+	position: relative;
+}
+
+.table .table-head > div {
+	text-align: center;
+}
+
+.table .table-row > div > span.table-content-tuteur {
+	position: absolute;
+    width: 100%;
+    height: 50%;
+    font-size: 12px;
+    line-height: 55px;
+    font-weight: bold;
+    text-shadow: 0 -1px 0 rgba(255,255,255,0.8);
+    text-align: center;
+    border-bottom: 1px dashed #ddd;
+}
+
+.table .table-row > div > span.table-content-apprenant {
+	position: absolute;
+    width: 100%;
+    height: 50%;
+    font-size: 12px;
+    top: 75%;
+    font-weight: bold;
+    text-shadow: 0 -1px 0 rgba(255,255,255,0.8);
+    text-align: center;
+    
+}
+
+
+
+.table .table-row > div:last-child,
+.table .table-head > div:last-child {
+	border-right: none;
+}
+
+.table .table-row:last-child {
+	border-bottom: none;
+}
+
+
+/* Modifications */
+
+.table-container {
+	position: relative;
+	height: 800px;
+    width: 2760px;
+    padding: 10px;
+    background: #fff;
+    box-shadow: inset 0 1px rgba(255,255,255,0.8);
+}
+
+.table .table-head {
+	background: transparent;
+    color: #b7b7b7;
+    font-weight: lighter;
+    text-transform: uppercase;
+    font-size: 17px;
+}
+
+.table .table-row > div {
+	background: #fff;
+	cursor: pointer;
+}
+
+
+.table .table-row > div > div a,
+.table .table-row > div > div span {
+	display: none;
+	font-size: 22px;
+}
+
+/*boutons*/
+.new-data{
+	position: absolute;
+	cursor:pointer;
+    border:none;
+    right: 10px;
+    bottom: 10px;
+    width:25px;
+    height:25px;
+    visibility: hidden;
+    background:url(../image/button-add.png) no-repeat;
+}
+
+.delete-data{
+	position: absolute;
+	cursor:pointer;
+    border:none;
+    right: 10px;
+    top: 10px;
+     width:25px;
+    height:25px;
+    visibility: hidden;
+    background:url(../image/button-delete.png) no-repeat;
+}
+
+.update-data{
+	position: absolute;
+	cursor:pointer;
+    border:none;
+    right: 10px;
+    bottom: 10px;
+    width:25px;
+    height:25px;
+    visibility: hidden;
+    background:url(../image/button-update.png) no-repeat;
+}
+
+
+.hours{
+	position:absolute;
+	z-index: 2;
+	
+}

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./css/style.css">
+    <title>La Cle</title>
+    <link rel="stylesheet" type="text/css" href="css/calendar.css" />
+    <link rel="stylesheet" type="text/css" href="css/custom_2.css" />
+    <link rel="stylesheet" type="text/css" href="css/table.css" />
+    <script src="js/modernizr.custom.63321.js"></script>
+  </head>
+  <body>
+
+    <div id="titleBar">
+      <img id="titleBarImg" src="./image/navBar2.png"></img>
+      <p id="dateTitle"></p>
+      <button id="lockButton"></button>
+    </div>
+
+    <div id="navBar">
+      <img id="navbarImg" src="./image/navBar.png"></img>
+      <p id="menuTitle">Menu</p>
+      <hr/>
+      <ul>
+        <li><a href="#">- Accueil</a></li>
+        <li><a href="#">- Panneau d'administration</a></li>
+      </ul>
+
+      <div class="container"> 
+        <section class="main">
+          <div class="custom-header clearfix">
+            <nav>
+              <span id="custom-prev" class="custom-prev"></span>
+              <span id="custom-next" class="custom-next"></span>
+            </nav>
+            <h2 id="custom-month" class="custom-month"></h2>
+            <h3 id="custom-year" class="custom-year"></h3>
+          </div>
+          <div id="calendar" class="fc-calendar-container"></div>
+        </section>
+      </div><!-- /container -->
+    </div>
+    
+    <div class="container2"> 
+        <section class="main2">
+          <div id="table" class="table"></div>
+        </section>
+      </div><!-- /container -->
+    </div>
+
+
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.calendario.js"></script>
+    <script type="text/javascript"> 
+      $(function() {
+        
+        var remote = require('electron').remote;     
+        console.log( remote.getGlobal('sharedObj'));
+        /*remote.getGlobal('sharedObj').myvar='test';
+        console.log(remote.getGlobal('sharedObj').myvar);*/
+        var today=new Date();
+
+        var j = new Array( "Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi" );
+        var m = new Array('Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre');
+        
+        var weekTodayName=(j[today.getDay()]);
+        
+        var monthTodayName=(m[today.getMonth()]);
+        document.getElementById("dateTitle").innerHTML  = weekTodayName+ " "+ today.getDate() + " "+ monthTodayName + " "+ today.getFullYear() ;
+
+        var transEndEventNames = {
+            'WebkitTransition' : 'webkitTransitionEnd',
+            'MozTransition' : 'transitionend',
+            'OTransition' : 'oTransitionEnd',
+            'msTransition' : 'MSTransitionEnd',
+            'transition' : 'transitionend'
+          },
+          transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
+          $wrapper = $( '#custom-inner' ),
+          $calendar = $( '#calendar' ),
+          cal = $calendar.calendario( {
+            onDayClick : function( $el, $contentEl, dateProperties, date ) {
+             
+              console.log(dateProperties.day,dateProperties.weekdayname,dateProperties.monthname,dateProperties.year);
+
+              document.getElementById("dateTitle").innerHTML  = dateProperties.weekdayname+ " "+ dateProperties.day + " "+ dateProperties.monthname + " "+ dateProperties.year ;
+              remote.getGlobal('sharedObj').date= date;
+              
+              cal.reload();
+
+            },
+            displayWeekAbbr : true
+          } ),
+          $month = $( '#custom-month' ).html( cal.getMonthName() ),
+          $year = $( '#custom-year' ).html( cal.getYear() );
+
+        $( '#custom-next' ).on( 'click', function() {
+          cal.gotoNextMonth( updateMonthYear );
+        } );
+        $( '#custom-prev' ).on( 'click', function() {
+          cal.gotoPreviousMonth( updateMonthYear );
+        } );
+
+        function updateMonthYear() {        
+          $month.html( cal.getMonthName() );
+          $year.html( cal.getYear() );
+        }
+      });
+    </script>
+    <script type="text/javascript" src="js/table.js"></script>
+    <script type="text/javascript"> 
+      $(function() {
+        var remote = require('electron').remote; 
+        var deleteState ='0';
+        $table = $( '#table' ),
+        table = $table.table( {
+          onRoomClick : function( $el, $contentEl) {
+            
+            var state=table.getCellState($el);
+            var id=remote.getGlobal('roomObj').id;
+            if(state){
+              if(id){
+                $('#'+id).css("background-color","#fff");
+                $('#'+id).find('button.new-data').css("visibility","hidden");
+                $('#'+id).find('button.update-data').css("visibility","hidden");
+                $('#'+id).find('button.delete-data').css("visibility","hidden");
+                $('#'+id).find('button.delete-data').attr('id','');
+                $('#'+id).find('button.update-data').attr('id','');
+                $('#'+id).find('button.new-data').attr('id','');
+              }
+              $el.css("background-color","#F1F1F1");
+              $el.find('button.update-data').css("visibility","visible");
+              $el.find('button.delete-data').css("visibility","visible");
+              $el.find('button.delete-data').attr('id','actif-delete');
+              $el.find('button.update-data').attr('id','actif-update');
+              remote.getGlobal('roomObj').id= $el[0].id;
+              $( "#actif-delete" ).click(function() {
+                   deleteState="1";
+                  table.deleteCellValue($el);
+                });
+              if(deleteState=="1"){
+                $('#'+id).css("background-color","#fff");
+                $('#'+id).find('button.new-data').css("visibility","hidden");
+                $('#'+id).find('button.update-data').css("visibility","hidden");
+                $('#'+id).find('button.delete-data').css("visibility","hidden");
+                $('#'+id).find('button.delete-data').attr('id','');
+                $('#'+id).find('button.update-data').attr('id','');
+                $('#'+id).find('button.new-data').attr('id','');
+                deleteState="0";
+              }
+             
+            }
+            else{
+              if(id){
+                $('#'+id).css("background-color","#fff");
+                $('#'+id).find('button.new-data').css("visibility","hidden");
+                $('#'+id).find('button.update-data').css("visibility","hidden");
+                $('#'+id).find('button.delete-data').css("visibility","hidden");
+                $('#'+id).find('button.delete-data').attr('id','');
+                $('#'+id).find('button.update-data').attr('id','');
+                $('#'+id).find('button.new-data').attr('id','');
+              }
+              $el.css("background-color","#F1F1F1");
+              $el.find('button.new-data').css("visibility","visible");
+              remote.getGlobal('roomObj').id= $el[0].id;
+            }  
+            /*table.deleteCellValue($el);*/
+          }
+        })
+      })
+    </script>
+
+
+
+
+  </body>
+</html>
