@@ -101,3 +101,103 @@ li a:hover {
 
 
 
+#addButton{
+    position: absolute;
+    top: 10px;
+    right: 7%;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: url(../image/add.png) no-repeat;
+    z-index: 10;
+}
+
+#addBox{
+    width: 250px;
+    height: 200px;
+    position: absolute;
+    top: 63px;
+    right: 7%;
+    background: url(../image/addpopup.png) no-repeat;
+    z-index: 9;
+}
+
+.pop-up{
+   position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 300px;
+    height: 250px;
+    border-radius: 5px;
+    border: 1px solid #897a5d;
+    background: url(../image/backgroundPopUp.png) no-repeat;
+    background-size: 100%;
+    background-position-y: -2px;
+
+}
+
+.formUpdate{
+    margin-top: 40px;
+    margin-left: 45px;
+}
+
+.formAdd{
+    margin-top: 40px;
+    margin-left: 40px;
+}
+
+.buttonPopUp{
+    margin-left: 15%;
+    margin-top: 20px;
+    background-color: #897a5d;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    width: 75px;
+    font-family: "Roboto";
+    font-weight: lighter;
+    font-size: 12px;
+}
+
+
+input[type=text], select {
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.buttonAdd{
+    margin-left: 90px;
+    margin-top: 15px;
+    width: 75px;
+    height: 15px;
+    background-color: #897a5d;
+    border: none;
+    border-radius: 3px;
+}
+
+.teacherTitle, .studentTitle, .inputPopUp {
+    margin-bottom: 5px;
+}
+
+
+.teacherTitle, .studentTitle{
+ margin-bottom: 5px;
+    color: #5d5c5b;
+    font-family: "roboto";
+    font-size: 12px;
+}
+   
+
+.titleAdd{
+    margin-left: 33%;
+    margin-top: 10px;
+    font-family: "roboto";
+    font-size: 16px;
+    font-weight: lighter;
+    color: #f3d4a5;
+}
+

@@ -8,13 +8,34 @@
     <link rel="stylesheet" type="text/css" href="css/custom_2.css" />
     <link rel="stylesheet" type="text/css" href="css/table.css" />
     <script src="js/modernizr.custom.63321.js"></script>
+    <script src="js/addPeople.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+      $(document).ready(function(){
+        $('#addButton').click(function(){
+          $('#addBox').slideToggle(1000);
+        });
+
+      });
+  </script>
+
   </head>
   <body>
 
     <div id="titleBar">
       <img id="titleBarImg" src="./image/navBar2.png"></img>
       <p id="dateTitle"></p>
+      <button id="addButton" onc></button>
       <button id="lockButton"></button>
+    </div>
+
+    <div id="addBox" style="display:none">
+    <form class="formAdd" name="addForm">
+      <input class="checkboxType" type="checkbox" name="type" value="teacher"> teacher
+      <input class="checkboxType" type="checkbox" name="type" value="student"> student<br>
+      <input id="name" type=text name="name" placeholder="Nom Prenom"></input>
+    </form>
+    <button class="buttonAdd" id="submite" onclick="addElementDataBase()"></button>
     </div>
 
     <div id="navBar">
@@ -49,13 +70,46 @@
     </div>
 
 
+    <div id="addPopUp" class="pop-up" style="display: none">
+    <p class="titleAdd">Nouvelle Leçon</p>
+    <form class="formAdd" name="add">
+    <p class="teacherTitle">Professeur:</p>
+      <input class="inputPopUp" type=text name="nameTeacher" placeholder="Nom Prenom"></input>
+    <p class="studentTitle">Apprenant:</p>
+      <input  class="inputPopUp" type=text name="nameStudent" placeholder="Nom Prenom"></input>
+    </form>
+    <button class="buttonPopUp" onclick="table.addData()">Ajouter</button>
+    <button class="buttonPopUp" onclick="hidePopUp()">Annuler</button>
+    </div>
+    
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <div id="updatePopUp" class="pop-up" style="display: none">
+    <p class="titleAdd">Modifier Leçon</p>
+    <form  id="formUpdate"  class="formAdd" name="update">
+    <p class="teacherTitle" >Professeur:</p>
+      <input class="inputPopUp" type=text name="nameTeacher" placeholder="Nom Prenom"></input>
+    <p class="studentTitle" >Apprenant:</p>
+      <input class="inputPopUp" type=text name="nameStudent" placeholder="Nom Prenom"></input>
+    </form>
+    <button class="buttonPopUp" onclick="table.updateData()">Changer</button>
+    <button class="buttonPopUp" onclick="hidePopUpUpdate()">Annuler</button>
+    </div> 
+
+
     <script type="text/javascript" src="js/jquery.calendario.js"></script>
+    <script type="text/javascript">
+    function hidePopUp() {    
+      document.getElementById("addPopUp").style.display = 'none';
+    }
+    function hidePopUpUpdate() {    
+      document.getElementById("updatePopUp").style.display = 'none';
+    }
+    </script>
     <script type="text/javascript"> 
       $(function() {
         
-        var remote = require('electron').remote;     
+        var remote = require('electron').remote;  
+        /*var my_http= require('http')  ;*/
         console.log( remote.getGlobal('sharedObj'));
         /*remote.getGlobal('sharedObj').myvar='test';
         console.log(remote.getGlobal('sharedObj').myvar);*/
@@ -67,6 +121,7 @@
         var weekTodayName=(j[today.getDay()]);
         
         var monthTodayName=(m[today.getMonth()]);
+        
         document.getElementById("dateTitle").innerHTML  = weekTodayName+ " "+ today.getDate() + " "+ monthTodayName + " "+ today.getFullYear() ;
 
         var transEndEventNames = {
@@ -80,16 +135,23 @@
           $wrapper = $( '#custom-inner' ),
           $calendar = $( '#calendar' ),
           cal = $calendar.calendario( {
+            
             onDayClick : function( $el, $contentEl, dateProperties, date ) {
              
               console.log(dateProperties.day,dateProperties.weekdayname,dateProperties.monthname,dateProperties.year);
-
+              /*my_http.get("http://humanitech.fr:8080/student", function(res){
+                  console.log("got repoonse: "+ res.statusCode);
+                  }).on('error', function(e){console.log("Got error :" + e.message);
+                });
+              */
               document.getElementById("dateTitle").innerHTML  = dateProperties.weekdayname+ " "+ dateProperties.day + " "+ dateProperties.monthname + " "+ dateProperties.year ;
               remote.getGlobal('sharedObj').date= date;
               
               cal.reload();
-
+              table.reload();
             },
+            
+
             displayWeekAbbr : true
           } ),
           $month = $( '#custom-month' ).html( cal.getMonthName() ),
@@ -110,13 +172,15 @@
     </script>
     <script type="text/javascript" src="js/table.js"></script>
     <script type="text/javascript"> 
+
+  
       $(function() {
         var remote = require('electron').remote; 
         var deleteState ='0';
         $table = $( '#table' ),
         table = $table.table( {
+
           onRoomClick : function( $el, $contentEl) {
-            
             var state=table.getCellState($el);
             var id=remote.getGlobal('roomObj').id;
             if(state){
@@ -129,6 +193,7 @@
                 $('#'+id).find('button.update-data').attr('id','');
                 $('#'+id).find('button.new-data').attr('id','');
               }
+              
               $el.css("background-color","#F1F1F1");
               $el.find('button.update-data').css("visibility","visible");
               $el.find('button.delete-data').css("visibility","visible");
@@ -139,6 +204,7 @@
                    deleteState="1";
                   table.deleteCellValue($el);
                 });
+              
               if(deleteState=="1"){
                 $('#'+id).css("background-color","#fff");
                 $('#'+id).find('button.new-data').css("visibility","hidden");
@@ -153,6 +219,7 @@
             }
             else{
               if(id){
+                
                 $('#'+id).css("background-color","#fff");
                 $('#'+id).find('button.new-data').css("visibility","hidden");
                 $('#'+id).find('button.update-data').css("visibility","hidden");
@@ -161,16 +228,24 @@
                 $('#'+id).find('button.update-data').attr('id','');
                 $('#'+id).find('button.new-data').attr('id','');
               }
+              
               $el.css("background-color","#F1F1F1");
               $el.find('button.new-data').css("visibility","visible");
+              $el.find('button.new-data').attr('id','actif-add');
               remote.getGlobal('roomObj').id= $el[0].id;
-            }  
+              $("#actif-add").one('click', function(){
+              $('#addPopUp').toggle(500);
+              });
+            }
+            $("#actif-update").click(function(){
+              $('#updatePopUp').toggle(500);
+              });  
             /*table.deleteCellValue($el);*/
           }
         })
       })
     </script>
-
+    
 
 
 

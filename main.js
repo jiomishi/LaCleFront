@@ -2,6 +2,7 @@ const {app, BrowserWindow} = require('electron');
 const path = require('path');
 const url = require('url');
 
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 var today =new Date();
@@ -12,6 +13,7 @@ global.roomObj = {
  };
 
 let win;
+
 
 function createWindow () {
   // Create the browser window.
@@ -27,6 +29,8 @@ function createWindow () {
   // Open the DevTools.
   win.webContents.openDevTools();
 
+  let child = new BrowserWindow({parent: win, modal: true, show: false})
+  
   // Emitted when the window is closed.
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows

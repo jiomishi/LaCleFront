@@ -1,0 +1,1 @@
+ "course":{ "id":1, "name":"Info" }, "room":{ "id":1, "number":1 }, "student":{ "id":4, "name": "Thomas" }, "teacher":{ "id":1, "name":"Romain" }, "date": "11-02-2017 21:05" }
