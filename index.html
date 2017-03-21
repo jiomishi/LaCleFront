@@ -234,11 +234,27 @@
               $el.find('button.new-data').attr('id','actif-add');
               remote.getGlobal('roomObj').id= $el[0].id;
               $("#actif-add").one('click', function(){
-              $('#addPopUp').toggle(500);
+              $('#addPopUp').show(500);
+              if(document.getElementById("updatePopUp").style.display!="none")
+                {
+                  $('#updatePopUp').hide(500);
+                }
+              
               });
             }
+            $(document).ready(function(){
             $("#actif-update").click(function(){
-              $('#updatePopUp').toggle(500);
+              if(document.getElementById("addPopUp").style.display!="none")
+                {
+                  $('#addPopUp').hide(500);
+                }
+              
+                  $('#updatePopUp').show(500);
+
+              
+              
+                
+              });
               });  
             /*table.deleteCellValue($el);*/
           }

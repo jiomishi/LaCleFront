@@ -1,7 +1,16 @@
 const {app, BrowserWindow} = require('electron');
+var electronInstaller = require('electron-winstaller');
 const path = require('path');
 const url = require('url');
 
+resultPromise = electronInstaller.createWindowsInstaller({
+    appDirectory: 'C:/Users/mathi/Desktop/my-app-64',
+    outputDirectory: 'C:/Users/mathi/Desktop/installer64',
+    authors: 'My App Inc.',
+    exe: 'myapp.exe'
+  });
+
+resultPromise.then(() => console.log("It worked!"), (e) => console.log(`No dice: ${e.message}`));
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

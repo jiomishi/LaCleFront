@@ -429,7 +429,7 @@
                 $('#'+remote.getGlobal('roomObj').id).find('button.new-data').attr('id','');
 
 
-			$('#updatePopUp').toggle(500);
+			$('#updatePopUp').hide(500);
 		},
 
 		getCellState : function($el) {
